@@ -22,7 +22,7 @@ def news_of_the_day(request):
             recipient.save()
             send_welcome_email(name,email)
             HttpResponseRedirect('news_today')
-        else:
+    else:
             form = NewsLetterForm()
     
     return render(request, 'all-news/today-news.html', {"date":date, "news":news, "letterForm":form})
