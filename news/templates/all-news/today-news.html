@@ -1,8 +1,17 @@
 {%extends 'all-news/base.html'%}
-
+{% load bootstrap4 %}
 {%block content%}
 {{block.super}}
 <div class="container">
+  <div class="container-fluid">
+
+    <form method="POST"  action="{%url 'newsToday'%}">
+      {%csrf_token%}
+     {%bootstrap_form letterForm layout='inline' %}
+      <input class="btn btn-primary" type="submit" value="Subscribe">
+    </form>
+  
+  </div>
 
     <!-- Looping through news   -->
     {% for news_item in news %}
