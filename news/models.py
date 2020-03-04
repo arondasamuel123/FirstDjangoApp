@@ -2,6 +2,7 @@ from django.db import models
 import datetime as dt
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
+from cloudinary.models import CloudinaryField
 
 
     
@@ -18,7 +19,7 @@ class Article(models.Model):
     post = HTMLField()
     tags = models.ManyToManyField(Tag)
     pub_date = models.DateTimeField(auto_now_add=True)
-    article_image = models.ImageField(upload_to = 'articles/', blank=True)
+    article_image = CloudinaryField('article_image')
     
     @classmethod
     def today_news(cls):
