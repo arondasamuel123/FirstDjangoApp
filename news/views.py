@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from .models import Article, NewsRecipients
 import datetime as dt
-from .forms import NewsLetterForm
+from .forms import NewsLetterForm,RegisterForm, AuthenticationForm
 from .email import send_welcome_email
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import logout, authenticate, login
 def welcome(request):
     return render(request, 'welcome.html')
 
@@ -58,10 +61,53 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'all-news/search.html',{"message":message})
-    
+@login_required(login_url='/accounts/login')    
 def article(request, article_id):
     try:
         article = Article.objects.get(id= article_id)
     except DoesNotExist:
         raise Http404()
     return render(request, "all-news/article.html", {"article":article})
+
+def signup(request):
+    if request.method =='POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, f'Account created')
+            return redirect(news_of_the_day)
+            
+    else:
+        form = RegisterForm()
+    return(request, 'django_registration/registration_form.html',{"form":form})
+
+def login(request):
+    if request.method=='POST':
+        form = AuthenticationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['Username']
+            password = form.cleaned_data['password']
+            
+            user = authenticate(username, password)
+            if user:
+                if user.is_active:
+                    login(request,user)
+                    return redirect(news_of_the_day)
+                else:
+                    return HttpResponse("Your account is inactive")
+    else:
+        form = AuthenticationForm()
+        
+    return render(request,'registration/login.html', {"form":form})
+                
+            
+        
+        
+
+def logout_view(request):
+    logout(request)
+    
+    return redirect(news_of_the_day)
+            
+
+
