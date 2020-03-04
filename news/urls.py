@@ -8,6 +8,7 @@ urlpatterns = [
     path('archives/<str:past_date>',views.past_days_news, name='pastNews'),
     path('search/', views.search_results, name='search_results'),
     path('article/<int:article_id>',views.article, name='article'),
+    path('new/article', views.new_article, name='new-article'),
     path('logout/', views.logout_view, name='logout')
     
 ]
