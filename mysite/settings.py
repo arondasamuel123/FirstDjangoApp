@@ -33,6 +33,7 @@ DEBUG = config('DEBUG',cast=bool)
 
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT')
@@ -52,7 +53,9 @@ INSTALLED_APPS = [
     'cloudinary',
     'news',
     'bootstrap4',
-    'tinymce'
+    'tinymce',
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 cloudinary.config(
@@ -73,6 +76,11 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}   
 
 ROOT_URLCONF = 'mysite.urls'
 
