@@ -16,7 +16,7 @@ gunicorn==20.0.4
 idna==2.9
 isort==4.3.21
 lazy-object-proxy==1.4.3
-Pillow==7.0.0
+Pillow==8.1.1
 psycopg2==2.8.4
 pycodestyle==2.5.0
 pyflakes==2.1.1
